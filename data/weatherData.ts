@@ -1,0 +1,77 @@
+export const currentWeather = {
+  temperature: 33,
+  condition: "Sunny Spells",
+  realFeel: 35,
+  uvIndex: 8,
+  windSpeed: 12,
+  windDirection: "NE",
+  precipitation: 10,
+  cloudCover: 25,
+  humidity: 65,
+  visibility: 10,
+  pressure: 1013,
+};
+
+export const todaySegments = [
+  {
+    period: "Morning",
+    time: "6 AM - 12 PM",
+    temp: 28,
+    condition: "Partly Cloudy",
+    humidity: 70,
+    wind: 10,
+  },
+  {
+    period: "Afternoon",
+    time: "12 PM - 6 PM",
+    temp: 33,
+    condition: "Sunny Spells",
+    humidity: 65,
+    wind: 12,
+  },
+  {
+    period: "Night",
+    time: "6 PM - 12 AM",
+    temp: 26,
+    condition: "Clear",
+    humidity: 75,
+    wind: 8,
+  },
+];
+
+export const weeklyForecast = [
+  { day: "Mon", date: "Dec 18", high: 34, low: 25, condition: "Sunny" },
+  { day: "Tue", date: "Dec 19", high: 33, low: 24, condition: "Partly Cloudy" },
+  { day: "Wed", date: "Dec 20", high: 32, low: 23, condition: "Cloudy" },
+  { day: "Thu", date: "Dec 21", high: 31, low: 22, condition: "Rainy" },
+  { day: "Fri", date: "Dec 22", high: 30, low: 21, condition: "Partly Cloudy" },
+  { day: "Sat", date: "Dec 23", high: 32, low: 23, condition: "Sunny" },
+  { day: "Sun", date: "Dec 24", high: 33, low: 24, condition: "Sunny" },
+];
+
+export const hourlyForecast = [
+  { time: "12 AM", temp: 26, condition: "Clear", humidity: 75 },
+  { time: "1 AM", temp: 25, condition: "Clear", humidity: 76 },
+  { time: "2 AM", temp: 25, condition: "Clear", humidity: 77 },
+  { time: "3 AM", temp: 24, condition: "Clear", humidity: 78 },
+  { time: "4 AM", temp: 24, condition: "Clear", humidity: 79 },
+  { time: "5 AM", temp: 24, condition: "Partly Cloudy", humidity: 80 },
+  { time: "6 AM", temp: 25, condition: "Partly Cloudy", humidity: 78 },
+  { time: "7 AM", temp: 26, condition: "Partly Cloudy", humidity: 76 },
+  { time: "8 AM", temp: 27, condition: "Partly Cloudy", humidity: 74 },
+  { time: "9 AM", temp: 29, condition: "Sunny", humidity: 72 },
+  { time: "10 AM", temp: 30, condition: "Sunny", humidity: 70 },
+  { time: "11 AM", temp: 32, condition: "Sunny", humidity: 68 },
+  { time: "12 PM", temp: 33, condition: "Sunny Spells", humidity: 65 },
+  { time: "1 PM", temp: 33, condition: "Sunny Spells", humidity: 64 },
+  { time: "2 PM", temp: 33, condition: "Sunny Spells", humidity: 65 },
+  { time: "3 PM", temp: 32, condition: "Sunny", humidity: 66 },
+  { time: "4 PM", temp: 31, condition: "Sunny", humidity: 68 },
+  { time: "5 PM", temp: 30, condition: "Partly Cloudy", humidity: 70 },
+  { time: "6 PM", temp: 29, condition: "Partly Cloudy", humidity: 72 },
+  { time: "7 PM", temp: 28, condition: "Clear", humidity: 74 },
+  { time: "8 PM", temp: 27, condition: "Clear", humidity: 75 },
+  { time: "9 PM", temp: 27, condition: "Clear", humidity: 76 },
+  { time: "10 PM", temp: 26, condition: "Clear", humidity: 76 },
+  { time: "11 PM", temp: 26, condition: "Clear", humidity: 75 },
+];
