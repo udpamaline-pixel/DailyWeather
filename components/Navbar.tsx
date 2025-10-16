@@ -231,7 +231,7 @@ export default function Navbar() {
           {/* Logo */}
           <div className="flex items-center gap-2">
             <img
-              src="/logo.svg"
+              src="/logo.png"
               alt="AccuWeather Logo"
               className="h-8 w-auto"
             />

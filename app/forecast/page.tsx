@@ -8,6 +8,8 @@ import { WeatherCardSkeleton, HourlyForecastSkeleton, DailyForecastSkeleton } fr
 
 export const dynamic = 'force-dynamic';
 
+;
+
 interface CurrentWeather {
   location: {
     name: string;
@@ -214,20 +216,20 @@ export default function ForecastPage() {
   const fetchForecastWeather = async () => {
     setLoading(true);
     setError(null);
-    
+
     const location = selectedLocation.name;
-    
+
     try {
       const response = await fetch(
         `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${encodeURIComponent(location)}&days=10&aqi=yes&alerts=yes`
       );
-      
+
       if (!response.ok) {
         const errorText = await response.text();
         console.error('Forecast API Response:', response.status, errorText);
         throw new Error(`Weather API error: ${response.status} - ${response.statusText}`);
       }
-      
+
       const data: ForecastWeather = await response.json();
       setForecastData(data);
       // Also set current weather data from forecast response
@@ -239,7 +241,7 @@ export default function ForecastPage() {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch forecast data';
       setError(errorMessage);
       console.error('Forecast fetch error:', err);
-      
+
       // Try to provide helpful error messages
       if (errorMessage.includes('400')) {
         setError('Invalid API request. Please check your API key and try again.');
@@ -259,27 +261,27 @@ export default function ForecastPage() {
   const fetchCurrentWeather = async () => {
     setLoading(true);
     setError(null);
-    
+
     const location = selectedLocation.name;
-    
+
     try {
       const response = await fetch(
         `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${encodeURIComponent(location)}&aqi=yes`
       );
-      
+
       if (!response.ok) {
         const errorText = await response.text();
         console.error('Current Weather API Response:', response.status, errorText);
         throw new Error(`Weather API error: ${response.status} - ${response.statusText}`);
       }
-      
+
       const data: CurrentWeather = await response.json();
       setWeatherData(data);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Failed to fetch weather data';
       setError(errorMessage);
       console.error('Weather fetch error:', err);
-      
+
       // Try to provide helpful error messages
       if (errorMessage.includes('400')) {
         setError('Invalid API request. Please check your API key and try again.');
@@ -302,13 +304,13 @@ export default function ForecastPage() {
       const response = await fetch(
         `https://api.weatherapi.com/v1/astronomy.json?key=${API_KEY}&q=${encodeURIComponent(location)}&dt=${new Date().toISOString().split('T')[0]}`
       );
-      
+
       if (!response.ok) {
         const errorText = await response.text();
         console.error('Astronomy API Response:', response.status, errorText);
         throw new Error(`Astronomy API error: ${response.status} - ${response.statusText}`);
       }
-      
+
       const data: AstronomyData = await response.json();
       setAstronomyData(data);
     } catch (err) {
@@ -320,7 +322,7 @@ export default function ForecastPage() {
   // Get weather icon component based on condition
   const getWeatherIcon = (condition: string, isDay: number) => {
     const conditionLower = condition.toLowerCase();
-    
+
     if (conditionLower.includes('sunny') || conditionLower.includes('clear')) {
       return isDay ? <Sun className="h-16 w-16 text-orange-400" /> : <Moon className="h-16 w-16 text-gray-400" />;
     } else if (conditionLower.includes('cloud')) {
@@ -335,17 +337,17 @@ export default function ForecastPage() {
   // Format time from API
   const formatTime = (dateTimeString: string) => {
     const date = new Date(dateTimeString);
-    return date.toLocaleTimeString('en-US', { 
-      hour: '2-digit', 
+    return date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
       minute: '2-digit',
-      hour12: false 
+      hour12: false
     });
   };
 
   // Format date
   const formatDate = (dateTimeString: string) => {
     const date = new Date(dateTimeString);
-    return date.toLocaleDateString('en-US', { 
+    return date.toLocaleDateString('en-US', {
       weekday: 'short',
       month: 'short',
       day: 'numeric'
@@ -355,11 +357,11 @@ export default function ForecastPage() {
   // Get next 12 hours of forecast data
   const getNext12Hours = () => {
     if (!forecastData?.forecast?.forecastday) return [];
-    
+
     const now = new Date();
     const currentHour = now.getHours();
     const hours = [];
-    
+
     // Get today's remaining hours
     const today = forecastData.forecast.forecastday[0];
     if (today?.hour) {
@@ -367,7 +369,7 @@ export default function ForecastPage() {
         hours.push(today.hour[i]);
       }
     }
-    
+
     // Get tomorrow's hours if needed
     if (hours.length < 12 && forecastData.forecast.forecastday[1]?.hour) {
       const tomorrow = forecastData.forecast.forecastday[1];
@@ -375,14 +377,14 @@ export default function ForecastPage() {
         hours.push(tomorrow.hour[i]);
       }
     }
-    
+
     return hours;
   };
 
   // Get weather icon for hourly forecast
   const getHourlyWeatherIcon = (condition: string, isDay: number) => {
     const conditionLower = condition.toLowerCase();
-    
+
     if (conditionLower.includes('sunny') || conditionLower.includes('clear')) {
       return isDay ? <Sun className="h-8 w-8 text-orange-400 mx-auto mb-2" /> : <Moon className="h-8 w-8 text-gray-400 mx-auto mb-2" />;
     } else if (conditionLower.includes('cloud')) {
@@ -397,7 +399,7 @@ export default function ForecastPage() {
   // Get weather icon for daily forecast
   const getDailyWeatherIcon = (condition: string) => {
     const conditionLower = condition.toLowerCase();
-    
+
     if (conditionLower.includes('sunny') || conditionLower.includes('clear')) {
       return <Sun className="h-6 w-6 text-orange-400" />;
     } else if (conditionLower.includes('cloud')) {
@@ -412,7 +414,7 @@ export default function ForecastPage() {
   // Format day name from date
   const formatDayName = (dateString: string, index: number) => {
     if (index === 0) return 'TODAY';
-    
+
     const date = new Date(dateString);
     const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
     return dayNames[date.getDay()];
@@ -463,11 +465,11 @@ export default function ForecastPage() {
       });
     }
   };
-   return (
+  return (
     <div className="min-h-screen bg-blue-50 dark:bg-gray-900">
       <div className="container mx-auto px-2 sm:px-4 py-6">
         <div className="max-w-2xl mx-auto space-y-4">
-          
+
           {/* Today's Weather Card */}
           {/* <Card className="shadow-sm bg-slate-700 text-white mb-4">
             <CardContent className="p-6">
@@ -494,7 +496,7 @@ export default function ForecastPage() {
                   {weatherData ? formatDate(weatherData.location.localtime) : '--'}
                 </span>
               </div>
-              
+
               {loading ? (
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
@@ -520,14 +522,14 @@ export default function ForecastPage() {
               ) : weatherData ? (
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
-                    {weatherData.current.is_day ? 
-                      <Sun className="h-6 w-6" /> : 
+                    {weatherData.current.is_day ?
+                      <Sun className="h-6 w-6" /> :
                       <Moon className="h-6 w-6" />
                     }
                     <span className="font-medium">{weatherData.current.condition.text}</span>
                     <span className="font-bold">Current: {Math.round(weatherData.current.temp_c)}°</span>
                   </div>
-                  
+
                   <div className="flex items-center gap-3">
                     <Moon className="h-6 w-6" />
                     <span className="font-medium">Feels like: {Math.round(weatherData.current.feelslike_c)}°</span>
@@ -537,7 +539,12 @@ export default function ForecastPage() {
               ) : null}
             </CardContent>
           </Card>
-
+          <div className="flex justify-center " >
+            <iframe src="https://youradurl.com"
+              height="250px"
+              width="250px">
+            </iframe>
+          </div>
           {/* Current Weather Card */}
           <Card className="shadow-sm">
             <CardContent className="p-6">
@@ -547,7 +554,7 @@ export default function ForecastPage() {
                   {weatherData ? formatTime(weatherData.location.localtime) : '--'}
                 </span>
               </div>
-              
+
               {loading ? (
                 <div className="space-y-6">
                   <div className="flex items-start justify-between">
@@ -579,14 +586,14 @@ export default function ForecastPage() {
                     <div className="flex items-center gap-4">
                       {getWeatherIcon(weatherData.current.condition.text, weatherData.current.is_day)}
                       <div>
-                        <div className="text-6xl font-light text-black dark:text-white">{Math.round(weatherData.current.temp_c)}°</div>
+                        <div className="text-6xl font-bold text-black dark:text-white">{Math.round(weatherData.current.temp_c)}°</div>
                         <div className="text-sm text-gray-600">C</div>
                         <div className="text-sm text-black dark:text-white mt-1">
                           Feels like <span className="font-medium">{Math.round(weatherData.current.feelslike_c)}°</span>
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="space-y-2 text-sm w-full lg:w-auto lg:text-right">
                       <div className="flex justify-between items-center">
                         <span className="text-black dark:text-white">Location</span>
@@ -610,7 +617,7 @@ export default function ForecastPage() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex items-center justify-between">
                     <div>
                       <div className="text-lg font-bold ">{weatherData.current.condition.text}</div>
@@ -641,9 +648,9 @@ export default function ForecastPage() {
                   Refresh Forecast
                 </button>
               </div>
-              
+
               <div className="text-lg font-medium">
-                {weatherData ? 
+                {weatherData ?
                   `Current conditions in ${weatherData.location.name}: ${weatherData.current.condition.text}` :
                   <div className="h-6 w-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
                 }
@@ -652,7 +659,7 @@ export default function ForecastPage() {
           </Card>
 
           {/* SLAT 2026 Mock Test Banner */}
-          
+
 
           {/* Surat Weather Radar Section */}
           <Card className="shadow-sm">
@@ -660,44 +667,44 @@ export default function ForecastPage() {
               <div className="mb-4">
                 <h2 className="text-sm font-medium  uppercase tracking-wide">SURAT WEATHER RADAR</h2>
               </div>
-              
+
               {/* Map Container */}
               <div className="relative bg-blue-100 rounded-lg overflow-hidden mb-4 h-48 sm:h-64 md:h-80">
-                <img 
-                  src="https://api.accuweather.com/maps/v1/radar/static/globalSIR/zxyuv/4/11/7/5/0.jpg?&imgwidth=768&imgheight=432&base_data=radar&apikey=de13920f574d420984d3080b1fa6132b&language=en" 
-                  alt="Weather Radar Map" 
+                <img
+                  src="https://api.accuweather.com/maps/v1/radar/static/globalSIR/zxyuv/4/11/7/5/0.jpg?&imgwidth=768&imgheight=432&base_data=radar&apikey=de13920f574d420984d3080b1fa6132b&language=en"
+                  alt="Weather Radar Map"
                   className="w-full h-full object-cover"
                 />
                 {/* Simplified Map Background */}
                 {/* <div className="absolute inset-0 bg-gradient-to-br from-blue-200 to-blue-300"> */}
-                  {/* Map Labels */}
-                  {/* <div className="absolute top-4 left-4 text-xs font-medium text-black">IRAN</div>
+                {/* Map Labels */}
+                {/* <div className="absolute top-4 left-4 text-xs font-medium text-black">IRAN</div>
                   <div className="absolute top-8 right-8 text-xs font-medium text-black">CHINA</div>
                   <div className="absolute bottom-12 left-8 text-xs font-medium text-black">OMAN</div>
                   <div className="absolute top-16 left-1/3 text-xs font-medium text-black">AFGHANISTAN</div>
                   <div className="absolute top-20 right-1/4 text-xs font-medium text-black">PAKISTAN</div>
                   <div className="absolute bottom-16 right-1/3 text-xs font-medium text-black">INDIA</div>
                   <div className="absolute bottom-8 right-8 text-xs font-medium text-black">SRI LANKA</div> */}
-                  
-                  {/* Surat Location Marker */}
-                  {/* <div className="absolute" style={{ top: '60%', left: '45%' }}>
+
+                {/* Surat Location Marker */}
+                {/* <div className="absolute" style={{ top: '60%', left: '45%' }}>
                     <div className="w-2 h-2 bg-red-500 rounded-full"></div>
                     <div className="text-xs font-bold text-black mt-1">SURAT</div>
                   </div> */}
-                  
-                  {/* Other Cities */}
-                  {/* <div className="absolute top-1/3 left-1/4 text-xs text-black">TEHRAN</div>
+
+                {/* Other Cities */}
+                {/* <div className="absolute top-1/3 left-1/4 text-xs text-black">TEHRAN</div>
                   <div className="absolute top-1/2 left-1/3 text-xs text-black">KARACHI</div>
                   <div className="absolute bottom-1/3 right-1/4 text-xs text-black">MUMBAI</div>
                   <div className="absolute bottom-1/4 right-1/3 text-xs text-black">BENGALURU</div>
                 </div> */}
-                
+
                 {/* Mapbox Attribution */}
                 {/* <div className="absolute bottom-2 right-2 text-xs text-gray-600 bg-white/80 px-2 py-1 rounded">
                   © mapbox © OpenStreetMap
                 </div> */}
               </div>
-              
+
               {/* Weather Controls */}
               <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
                 <div className="flex items-center gap-2">
@@ -706,7 +713,7 @@ export default function ForecastPage() {
                   </div>
                   <span className="text-xs sm:text-sm ">Clouds</span>
                 </div>
-                
+
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center">
                     <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
@@ -719,29 +726,29 @@ export default function ForecastPage() {
 
           {/* Hourly Weather Section */}
           <Card className="shadow-sm">
-            <CardContent className="p-6">
+            <CardContent className="p-6 ">
               <div className="mb-4">
                 <h2 className="text-sm font-medium uppercase tracking-wide">HOURLY WEATHER</h2>
               </div>
-              
+
               {/* Hourly Forecast Scroll Container */}
               <div className="relative">
                 {/* Left Arrow */}
-                <button 
+                <button
                   onClick={scrollLeft}
-                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-16 bg-blue-200 hover:bg-blue-300 flex items-center justify-center rounded-r transition-colors"
+                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-8 h-16 bg-blue-200 hover:bg-blue-300 flex items-center justify-center rounded-r transition-colors hidden md:flex  "
                 >
                   <ChevronLeft className="h-4 w-4 " />
                 </button>
-                
+
                 {/* Right Arrow */}
-                <button 
+                <button
                   onClick={scrollRight}
-                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-16 bg-blue-200 hover:bg-blue-300 flex items-center justify-center rounded-l transition-colors"
+                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-8 h-16 bg-blue-200 hover:bg-blue-300 flex items-center justify-center rounded-l transition-colors hidden md:flex"
                 >
                   <ChevronRight className="h-4 w-4 " />
                 </button>
-                
+
                 {/* Hourly Data Container */}
                 <div className="overflow-hidden mx-2 sm:mx-4 md:mx-8">
                   <div ref={scrollContainerRef} className="flex gap-3 sm:gap-4 md:gap-6 py-4 overflow-x-auto scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
@@ -753,12 +760,17 @@ export default function ForecastPage() {
                       </div>
                     ) : getNext12Hours().length > 0 ? (
                       getNext12Hours().map((hour, index) => {
-                        const hourTime = new Date(hour.time).getHours();
-                        const displayHour = hourTime.toString().padStart(2, '0');
-                        
+                        const date = new Date(hour.time);
+                        const hours = date.getHours();
+                        const minutes = date.getMinutes();
+                        const ampm = hours >= 12 ? 'PM' : 'AM';
+                        const displayHour = hours % 12 || 12; // Convert to 12-hour format
+                        const displayMinutes = minutes.toString().padStart(2, '0');
+                        const timeString = `${displayHour}:${displayMinutes} ${ampm}`;
+
                         return (
                           <div key={index} className="flex-shrink-0 text-center">
-                            <div className="text-sm font-medium mb-2">{displayHour}</div>
+                            <div className="text-sm font-medium mb-2">{timeString}</div>
                             {getHourlyWeatherIcon(hour.condition.text, hour.is_day)}
                             <div className="text-lg font-bold mb-1">{Math.round(hour.temp_c)}°</div>
                             <div className="text-xs flex items-center gap-1">
@@ -785,7 +797,7 @@ export default function ForecastPage() {
               <div className="mb-4">
                 <h2 className="text-sm font-medium  uppercase tracking-wide">10-DAY WEATHER FORECAST</h2>
               </div>
-              
+
               <div className="space-y-0">
                 {loading ? (
                   <DailyForecastSkeleton />
@@ -830,14 +842,19 @@ export default function ForecastPage() {
               </div>
             </CardContent>
           </Card>
-
+          <div className="flex justify-center " >
+            <iframe src="https://youradurl.com"
+              height="250px"
+              width="250px">
+            </iframe>
+          </div>
           {/* Sun & Moon Section */}
           <Card className="shadow-sm">
             <CardContent className="p-6">
               <div className="mb-4">
                 <h2 className="text-sm font-medium  uppercase tracking-wide">SUN & MOON</h2>
               </div>
-              
+
               <div className="space-y-4">
                 {/* Sun Info */}
                 <div className="flex items-center justify-between">
@@ -846,9 +863,9 @@ export default function ForecastPage() {
                     <div>
                       <div className="text-sm font-medium ">Sunrise</div>
                       <div className="text-xs ">
-                        {astronomyData?.astronomy?.astro?.sunrise || 
-                         forecastData?.forecast?.forecastday?.[0]?.astro?.sunrise || 
-                         '--'}
+                        {astronomyData?.astronomy?.astro?.sunrise ||
+                          forecastData?.forecast?.forecastday?.[0]?.astro?.sunrise ||
+                          '--'}
                       </div>
                     </div>
                   </div>
@@ -856,9 +873,9 @@ export default function ForecastPage() {
                     <div className="text-right">
                       <div className="text-sm font-medium ">Sunset</div>
                       <div className="text-xs ">
-                        {astronomyData?.astronomy?.astro?.sunset || 
-                         forecastData?.forecast?.forecastday?.[0]?.astro?.sunset || 
-                         '--'}
+                        {astronomyData?.astronomy?.astro?.sunset ||
+                          forecastData?.forecast?.forecastday?.[0]?.astro?.sunset ||
+                          '--'}
                       </div>
                     </div>
                     <Sun className="h-6 w-6 text-orange-300" />
@@ -872,9 +889,9 @@ export default function ForecastPage() {
                     <div>
                       <div className="text-sm font-medium ">Moonrise</div>
                       <div className="text-xs ">
-                        {astronomyData?.astronomy?.astro?.moonrise || 
-                         forecastData?.forecast?.forecastday?.[0]?.astro?.moonrise || 
-                         '--'}
+                        {astronomyData?.astronomy?.astro?.moonrise ||
+                          forecastData?.forecast?.forecastday?.[0]?.astro?.moonrise ||
+                          '--'}
                       </div>
                     </div>
                   </div>
@@ -882,9 +899,9 @@ export default function ForecastPage() {
                     <div className="text-right">
                       <div className="text-sm font-medium ">Moonset</div>
                       <div className="text-xs ">
-                        {astronomyData?.astronomy?.astro?.moonset || 
-                         forecastData?.forecast?.forecastday?.[0]?.astro?.moonset || 
-                         '--'}
+                        {astronomyData?.astronomy?.astro?.moonset ||
+                          forecastData?.forecast?.forecastday?.[0]?.astro?.moonset ||
+                          '--'}
                       </div>
                     </div>
                     <Moon className="h-6 w-6 " />
@@ -898,9 +915,9 @@ export default function ForecastPage() {
                     <div>
                       <div className="text-sm font-medium ">Moon Phase</div>
                       <div className="text-xs ">
-                        {astronomyData?.astronomy?.astro?.moon_phase || 
-                         forecastData?.forecast?.forecastday?.[0]?.astro?.moon_phase || 
-                         '--'}
+                        {astronomyData?.astronomy?.astro?.moon_phase ||
+                          forecastData?.forecast?.forecastday?.[0]?.astro?.moon_phase ||
+                          '--'}
                       </div>
                     </div>
                   </div>
@@ -908,15 +925,15 @@ export default function ForecastPage() {
                     <div className="text-right">
                       <div className="text-sm font-medium ">Moon Illumination</div>
                       <div className="text-xs ">
-                        {astronomyData?.astronomy?.astro?.moon_illumination || 
-                         forecastData?.forecast?.forecastday?.[0]?.astro?.moon_illumination || 
-                         '--'}%
+                        {astronomyData?.astronomy?.astro?.moon_illumination ||
+                          forecastData?.forecast?.forecastday?.[0]?.astro?.moon_illumination ||
+                          '--'}%
                       </div>
                     </div>
                     <div className="w-6 h-6 flex items-center justify-center">
-                      {getMoonPhaseEmoji(astronomyData?.astronomy?.astro?.moon_phase || 
-                                        forecastData?.forecast?.forecastday?.[0]?.astro?.moon_phase || 
-                                        'New Moon')}
+                      {getMoonPhaseEmoji(astronomyData?.astronomy?.astro?.moon_phase ||
+                        forecastData?.forecast?.forecastday?.[0]?.astro?.moon_phase ||
+                        'New Moon')}
                     </div>
                   </div>
                 </div>

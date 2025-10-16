@@ -9,6 +9,8 @@ import { FullPageSkeleton, WeatherCardSkeleton, TemperatureHistorySkeleton } fro
 
 export const dynamic = 'force-dynamic';
 
+
+
 interface HistoryWeather {
   location: {
     name: string;
@@ -110,7 +112,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
-  const [expandedSections, setExpandedSections] = useState<{[key: string]: boolean}>({
+  const [expandedSections, setExpandedSections] = useState<{ [key: string]: boolean }>({
     morning: false,
     afternoon: false,
     evening: false,
@@ -142,27 +144,39 @@ export default function HomePage() {
     router.push('/daily');
   };
 
-  // Fetch history weather data
+  // Fetch weather data (history for past dates, forecast for future dates)
   const fetchHistoryWeather = async (date: string = selectedDate) => {
     setLoading(true);
     setError(null);
-    
+
     const location = selectedLocation.name;
-    
+    const today = new Date().toISOString().split('T')[0];
+    const isFutureDate = date > today;
+
     try {
-      const response = await fetch(
-        `https://api.weatherapi.com/v1/history.json?key=${API_KEY}&q=${encodeURIComponent(location)}&dt=${date}`
-      );
+      let response;
       
-      if (!response.ok) {
-        throw new Error(`History API error: ${response.status}`);
+      if (isFutureDate) {
+        // Use forecast API for future dates
+        response = await fetch(
+          `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${encodeURIComponent(location)}&dt=${date}&days=14`
+        );
+      } else {
+        // Use history API for past and current dates
+        response = await fetch(
+          `https://api.weatherapi.com/v1/history.json?key=${API_KEY}&q=${encodeURIComponent(location)}&dt=${date}`
+        );
       }
-      
+
+      if (!response.ok) {
+        throw new Error(`Weather API error: ${response.status}`);
+      }
+
       const data: HistoryWeather = await response.json();
       setHistoryData(data);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch history data');
-      console.error('History fetch error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to fetch weather data');
+      console.error('Weather fetch error:', err);
     } finally {
       setLoading(false);
     }
@@ -171,7 +185,7 @@ export default function HomePage() {
   // Get weather icon component based on condition
   const getWeatherIcon = (condition: string, isDay: number) => {
     const conditionLower = condition.toLowerCase();
-    
+
     if (conditionLower.includes('sunny') || conditionLower.includes('clear')) {
       return isDay ? <Sun className="h-16 w-16 text-orange-400" /> : <Moon className="h-16 w-16 text-gray-400" />;
     } else if (conditionLower.includes('cloud')) {
@@ -186,7 +200,7 @@ export default function HomePage() {
   // Format date
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
+    return date.toLocaleDateString('en-US', {
       weekday: 'long',
       day: 'numeric',
       month: 'long'
@@ -196,11 +210,11 @@ export default function HomePage() {
   // Format date for mobile (separate day/month and weekday)
   const formatDateMobile = (dateString: string) => {
     const date = new Date(dateString);
-    const dayMonth = date.toLocaleDateString('en-US', { 
+    const dayMonth = date.toLocaleDateString('en-US', {
       day: 'numeric',
       month: 'long'
     }).toUpperCase();
-    const weekday = date.toLocaleDateString('en-US', { 
+    const weekday = date.toLocaleDateString('en-US', {
       weekday: 'long'
     }).toUpperCase();
     return { dayMonth, weekday };
@@ -263,7 +277,7 @@ export default function HomePage() {
   // Get weather icon for hourly display
   const getHourlyWeatherIcon = (condition: string, isDay: number) => {
     const conditionLower = condition.toLowerCase();
-    
+
     if (conditionLower.includes('sunny') || conditionLower.includes('clear')) {
       return isDay ? <Sun className="h-6 w-6 text-orange-400" /> : <Moon className="h-6 w-6 text-gray-400" />;
     } else if (conditionLower.includes('cloud')) {
@@ -278,17 +292,17 @@ export default function HomePage() {
   // Format hour for display
   const formatHour = (timeString: string) => {
     const date = new Date(timeString);
-    return date.toLocaleTimeString('en-US', { 
-      hour: '2-digit', 
+    return date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
       minute: '2-digit',
-      hour12: false 
+      hour12: false
     });
   };
 
   // Render hourly weather section
   const renderHourlyWeather = (hours: any[], title: string) => {
     if (!hours.length) return null;
-    
+
     return (
       <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
         <h4 className="text-sm font-medium mb-3 uppercase">{title} Details</h4>
@@ -346,14 +360,14 @@ export default function HomePage() {
           <div className="flex items-center justify-between mb-4 pb-2 border-b border-gray-200 dark:border-gray-700">
             {/* Desktop Date Format */}
             <h1 className="hidden md:block text-lg font-medium text-black dark:text-white">
-              {historyData ? formatDate(historyData.forecast.forecastday[0].date) : 
+              {historyData?.forecast?.forecastday?.[0]?.date ? formatDate(historyData.forecast.forecastday[0].date) :
                 <div className="h-6 w-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
               }
             </h1>
-            
+
             {/* Mobile Date Format */}
             <div className="md:hidden">
-              {historyData ? (
+              {historyData?.forecast?.forecastday?.[0]?.date ? (
                 <div>
                   <div className="text-lg font-medium text-black dark:text-white">
                     {formatDateMobile(historyData.forecast.forecastday[0].date).dayMonth}
@@ -366,19 +380,20 @@ export default function HomePage() {
                 <div className="h-6 w-32 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
               )}
             </div>
-            
+
             <div className="flex items-center gap-2">
               <input
                 type="date"
                 value={selectedDate}
                 onChange={(e) => setSelectedDate(e.target.value)}
-                max={new Date().toISOString().split('T')[0]}
-                className="px-2 py-1 text-sm border rounded"
+                max={new Date(Date.now() + 15 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]}
+                className="px-2 py-1 text-sm border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
               />
               <button
                 onClick={() => fetchHistoryWeather()}
                 disabled={loading}
-                className="p-1 text-gray-400 hover:text-gray-600 disabled:opacity-50"
+                className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 disabled:opacity-50"
+                title="Refresh weather data"
               >
                 <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
               </button>
@@ -408,116 +423,133 @@ export default function HomePage() {
           {loading ? (
             <WeatherCardSkeleton />
           ) : (
-            <Card className="mb-6 shadow-sm">
-              <CardContent className="p-6">
-                {error ? (
-                <div className="text-red-500 text-center py-8">
-                  Error: {error}
-                </div>
-              ) : historyData ? (
-                <>
-                  {/* Day Header */}
-                  <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-lg font-medium text-black dark:text-white">Day</h2>
-                    <span className="text-sm">
-                      {formatShortDate(historyData.forecast.forecastday[0].date)}
-                    </span>
-                  </div>
+            <div>
+              <Card className="mb-6 shadow-sm">
+                <CardContent className="p-6">
+                  {error ? (
+                    <div className="text-red-500 text-center py-8">
+                      Error: {error}
+                    </div>
+                  ) : historyData?.forecast?.forecastday?.[0] ? (
+                    <>
+                      {/* Day Header */}
+                      <div className="flex items-center justify-between mb-6">
+                        <h2 className="text-lg font-medium text-black dark:text-white">Day</h2>
+                        <span className="text-sm">
+                          {historyData?.forecast?.forecastday?.[0]?.date ? formatShortDate(historyData.forecast.forecastday[0].date) : '--'}
+                        </span>
+                      </div>
 
-                  {/* Temperature and Icon */}
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-4">
-                      {getWeatherIcon(historyData.forecast.forecastday[0].day.condition.text, 1)}
-                      <div>
-                        <div className="text-6xl font-light">
-                          {Math.round(historyData.forecast.forecastday[0].day.maxtemp_c)}°
+                      {/* Temperature and Icon */}
+                      <div className="flex items-center justify-between mb-6">
+                        <div className="flex items-center gap-4">
+                          {getWeatherIcon(historyData.forecast.forecastday[0].day.condition.text, 1)}
+                          <div>
+                            <div className="text-6xl font-bold">
+                              {Math.round(historyData.forecast.forecastday[0].day.maxtemp_c)}°
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-sm">Hi</div>
+                        <div className="text-right">
+                          <div className="text-sm mb-1">
+                            Avg Temp {Math.round(historyData.forecast.forecastday[0].day.avgtemp_c)}°
+                          </div>
+                          <div className="text-sm">
+                            Humidity {historyData.forecast.forecastday[0].day.avghumidity}%
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm mb-1">
-                        Avg Temp {Math.round(historyData.forecast.forecastday[0].day.avgtemp_c)}°
-                      </div>
-                      <div className="text-sm">
-                        Humidity {historyData.forecast.forecastday[0].day.avghumidity}%
-                      </div>
-                    </div>
-                  </div>
 
-                  {/* Weather Condition */}
-                  <div className="mb-6">
-                    <div className="text-lg font-medium">
-                      {historyData.forecast.forecastday[0].day.condition.text}
-                    </div>
-                  </div>
 
-                  {/* Weather Details Grid */}
-                  <div className="grid grid-cols-2 gap-y-4 gap-x-2 sm:gap-x-4 md:gap-x-8 text-sm">
-                    <div className="flex justify-between">
-                      <span className="">Max UV Index</span>
-                      <span className=" font-medium">
-                        {historyData.forecast.forecastday[0].day.uv}
-                      </span>
+
+                      {/* Weather Condition */}
+                      <div className="mb-6">
+                        <div className="text-lg font-medium">
+                          {historyData.forecast.forecastday[0].day.condition.text}
+                        </div>
+                      </div>
+
+                      {/* Weather Details Grid */}
+                      <div className="grid grid-cols-2 gap-y-4 gap-x-2 sm:gap-x-4 md:gap-x-8 text-sm">
+                        <div className="flex justify-between">
+                          <span className="">Max UV Index</span>
+                          <span className=" font-medium">
+                            {historyData.forecast.forecastday[0].day.uv}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="">Chance of Rain</span>
+                          <span className=" font-medium">
+                            {historyData.forecast.forecastday[0].day.daily_chance_of_rain}%
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="">Max Wind</span>
+                          <span className=" font-medium">
+                            {Math.round(historyData.forecast.forecastday[0].day.maxwind_kph)} km/h
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="">Chance of Snow</span>
+                          <span className=" font-medium">
+                            {historyData.forecast.forecastday[0].day.daily_chance_of_snow}%
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="">Precipitation</span>
+                          <span className=" font-medium">
+                            {historyData.forecast.forecastday[0].day.totalprecip_mm} mm
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="">Visibility</span>
+                          <span className=" font-medium">
+                            {historyData.forecast.forecastday[0].day.avgvis_km} km
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="">Min Temperature</span>
+                          <span className=" font-medium">
+                            {Math.round(historyData.forecast.forecastday[0].day.mintemp_c)}°
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="">Avg Humidity</span>
+                          <span className=" font-medium">
+                            {historyData.forecast.forecastday[0].day.avghumidity}%
+                          </span>
+                        </div>
+                      </div>
+
+
+                    </>
+
+                  ) : (
+                    <div className="text-gray-500 text-center py-8">
+                      No weather data available
                     </div>
-                    <div className="flex justify-between">
-                      <span className="">Chance of Rain</span>
-                      <span className=" font-medium">
-                        {historyData.forecast.forecastday[0].day.daily_chance_of_rain}%
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="">Max Wind</span>
-                      <span className=" font-medium">
-                        {Math.round(historyData.forecast.forecastday[0].day.maxwind_kph)} km/h
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="">Chance of Snow</span>
-                      <span className=" font-medium">
-                        {historyData.forecast.forecastday[0].day.daily_chance_of_snow}%
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="">Precipitation</span>
-                      <span className=" font-medium">
-                        {historyData.forecast.forecastday[0].day.totalprecip_mm} mm
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="">Visibility</span>
-                      <span className=" font-medium">
-                        {historyData.forecast.forecastday[0].day.avgvis_km} km
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="">Min Temperature</span>
-                      <span className=" font-medium">
-                        {Math.round(historyData.forecast.forecastday[0].day.mintemp_c)}°
-                      </span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="">Avg Humidity</span>
-                      <span className=" font-medium">
-                        {historyData.forecast.forecastday[0].day.avghumidity}%
-                      </span>
-                    </div>
-                  </div>
-                </>
-              ) : null}
-              </CardContent>
-            </Card>
+                  )}
+                </CardContent>
+              </Card>
+              <div className="flex justify-center pb-6" >
+                <iframe src="https://youradurl.com"
+                  height="250px"
+                  width="250px">
+                </iframe>
+              </div>
+            </div>
+
           )}
 
           {/* Morning Section */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm mb-2">
-            <div 
+            <div
               className="flex items-center justify-between py-4 px-6 "
               onClick={() => toggleSection('morning')}
             >
               <span className="text-lg font-medium">MORNING</span>
-              {expandedSections.morning ? 
-                <ChevronDown className="h-5 w-5" /> : 
+              {expandedSections.morning ?
+                <ChevronDown className="h-5 w-5" /> :
                 <ChevronRight className="h-5 w-5" />
               }
             </div>
@@ -526,13 +558,13 @@ export default function HomePage() {
 
           {/* Afternoon Section */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm mb-6">
-            <div 
+            <div
               className="flex items-center justify-between py-4 px-6"
               onClick={() => toggleSection('afternoon')}
             >
               <span className="text-lg font-medium">AFTERNOON</span>
-              {expandedSections.afternoon ? 
-                <ChevronDown className="h-5 w-5" /> : 
+              {expandedSections.afternoon ?
+                <ChevronDown className="h-5 w-5" /> :
                 <ChevronRight className="h-5 w-5" />
               }
             </div>
@@ -540,9 +572,9 @@ export default function HomePage() {
           </div>
 
           {/* Night Weather Card */}
-          <Card className="mb-6 shadow-sm">
+          <Card className="mb-6 shadow-sm bg-gray-800 text-white">
             <CardContent className="p-6">
-              {historyData ? (
+              {historyData?.forecast?.forecastday?.[0] ? (
                 <>
                   {/* Night Header */}
                   <div className="flex items-center justify-between mb-6">
@@ -557,7 +589,7 @@ export default function HomePage() {
                     <div className="flex items-center gap-4">
                       {getWeatherIcon(historyData.forecast.forecastday[0].day.condition.text, 0)}
                       <div>
-                        <div className="text-6xl font-light ">
+                        <div className="text-6xl font-bold ">
                           {Math.round(historyData.forecast.forecastday[0].day.mintemp_c)}°
                         </div>
                         <div className="text-sm ">Low</div>
@@ -627,13 +659,13 @@ export default function HomePage() {
 
           {/* Evening Section */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm mb-2">
-            <div 
+            <div
               className="flex items-center justify-between py-4 px-6"
               onClick={() => toggleSection('evening')}
             >
               <span className="text-lg font-medium ">EVENING</span>
-              {expandedSections.evening ? 
-                <ChevronDown className="h-5 w-5 text-gray-400" /> : 
+              {expandedSections.evening ?
+                <ChevronDown className="h-5 w-5 text-gray-400" /> :
                 <ChevronRight className="h-5 w-5 text-gray-400" />
               }
             </div>
@@ -642,25 +674,27 @@ export default function HomePage() {
 
           {/* Overnight Section */}
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm mb-6">
-            <div 
+            <div
               className="flex items-center justify-between py-4 px-6 "
               onClick={() => toggleSection('overnight')}
             >
               <span className="text-lg font-medium ">OVERNIGHT</span>
-              {expandedSections.overnight ? 
-                <ChevronDown className="h-5 w-5" /> : 
+              {expandedSections.overnight ?
+                <ChevronDown className="h-5 w-5" /> :
                 <ChevronRight className="h-5 w-5 text-gray-400" />
               }
             </div>
             {expandedSections.overnight && renderHourlyWeather(getOvernightHours(), 'Overnight')}
           </div>
 
+         
+
           {/* Sun & Moon Section */}
           <Card className="mb-6 shadow-sm">
             <CardContent className="p-6">
               <h3 className="text-sm font-medium mb-4 uppercase tracking-wide">Sun & Moon</h3>
-              
-              {historyData ? (
+
+              {historyData?.forecast?.forecastday?.[0] ? (
                 <>
                   {/* Sun Info */}
                   <div className="flex items-center justify-between mb-4">
@@ -724,6 +758,12 @@ export default function HomePage() {
               )}
             </CardContent>
           </Card>
+           <div className="flex justify-center pb-6" >
+            <iframe src="https://youradurl.com"
+              height="250px"
+              width="250px">
+            </iframe>
+          </div>
 
           {/* Temperature History Section */}
           <Card className="mb-6 shadow-sm">
@@ -731,11 +771,11 @@ export default function HomePage() {
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-mediumuppercase tracking-wide">Temperature History</h3>
                 <span className="text-sm">
-                  {historyData ? formatShortDate(historyData.forecast.forecastday[0].date) : '--'}
+                  {historyData?.forecast?.forecastday?.[0]?.date ? formatShortDate(historyData.forecast.forecastday[0].date) : '--'}
                 </span>
               </div>
-              
-              {historyData ? (
+
+              {historyData?.forecast?.forecastday?.[0] ? (
                 <div className="space-y-0">
                   {/* Header Row */}
                   <div className="flex items-center justify-between py-2 border-b border-gray-200">
@@ -749,7 +789,7 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Forecast Row */}
                   <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-600">
                     <span className="font-medium w-16 sm:w-20 text-sm sm:text-base">Forecast</span>
@@ -766,7 +806,7 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Average Row */}
                   <div className="flex items-center justify-between py-3 border-b border-gray-100 dark:border-gray-600">
                     <span className=" font-medium w-16 sm:w-20 text-sm sm:text-base">Average</span>
@@ -784,7 +824,7 @@ export default function HomePage() {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Last Yr Row */}
                   <div className="flex items-center justify-between py-3">
                     <span className=" font-medium w-16 sm:w-20 text-sm sm:text-base">Last Yr</span>
@@ -814,21 +854,21 @@ export default function HomePage() {
           <div className="mb-6">
             <h3 className="text-sm font-medium mb-3 uppercase tracking-wide">Further Ahead</h3>
             <div className="space-y-2">
-              <div 
+              <div
                 className="flex items-center justify-between py-4 px-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm cursor-pointer transition-colors"
                 onClick={navigateToHourly}
               >
                 <span className="text-lg font-medium">HOURLY</span>
                 <ChevronRight className="h-5 w-5" />
               </div>
-              <div 
+              <div
                 className="flex items-center justify-between py-4 px-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm cursor-pointer transition-colors"
                 onClick={navigateToDaily}
               >
                 <span className="text-lg font-medium">DAILY</span>
                 <ChevronRight className="h-5 w-5" />
               </div>
-              <div 
+              <div
                 className="flex items-center justify-between py-4 px-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm cursor-pointer transition-colors"
                 onClick={navigateToMonthly}
               >

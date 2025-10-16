@@ -3,6 +3,7 @@
 import { CloudSun, Facebook, Twitter, ChevronRight, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useWeather } from "@/contexts/WeatherContext";
+import Link from "next/link";
 
 const Footer = () => {
   const { selectedLocation } = useWeather();
@@ -61,7 +62,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 mt-16">
+    <footer className="bg-gray-50 dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 ">
       {/* Breadcrumb Navigation */}
       <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="container mx-auto px-2 sm:px-4 py-3">
@@ -84,153 +85,30 @@ const Footer = () => {
       <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
         <div className="container mx-auto px-2 sm:px-4 py-2">
           <p className="text-sm break-words">
-            Weather Text Goes: {selectedLocation.name}, {selectedLocation.region} - Driving Segment - UV Robust
+            Weather Text Goes: Driving Segment - UV Robust
           </p>
         </div>
       </div>
 
       {/* Main Footer Content */}
-      <div className="container mx-auto px-2 sm:px-4 py-12">
-        {/* Desktop View */}
-        <div className="hidden md:grid md:grid-cols-4 gap-8 mb-8">
-          {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category}>
-              <h3 className="font-semibold mb-4 text-sm uppercase tracking-wide">
-                {category}
-              </h3>
-              <ul className="space-y-2">
-                {links.map((link) => (
-                  <li key={link}>
-                    <a
-                      href="#"
-                      className=" hover:text-gray-600 text-sm transition-colors block"
-                    >
-                      {link}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-              {category === "APPS & DOWNLOADS" && (
-                <div className="mt-6">
-                  <h4 className="font-semibold mb-3 text-sm uppercase tracking-wide">
-                    SUBSCRIPTION SERVICES
-                  </h4>
-                  <ul className="space-y-2">
-                    {subscriptionServices.map((service) => (
-                      <li key={service}>
-                        <a
-                          href="#"
-                          className=" hover:text-gray-600 text-sm transition-colors block"
-                        >
-                          {service}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+      <div className="container mx-auto px-2 sm:px-4">
 
-        {/* Mobile View with Dropdowns */}
-        <div className="md:hidden mb-8">
-          {Object.entries(footerLinks).map(([category, links]) => (
-            <div key={category} className="border-b border-gray-200">
-              <button
-                onClick={() => toggleSection(category)}
-                className="w-full flex items-center justify-between py-4 text-left"
-              >
-                <h3 className="font-semibold text-sm uppercase tracking-wide">
-                  {category}
-                </h3>
-                <ChevronDown 
-                  className={`h-4 w-4  transition-transform ${
-                    openSections[category] ? 'rotate-180' : ''
-                  }`}
-                />
-              </button>
-              {openSections[category] && (
-                <div className="pb-4">
-                  <ul className="space-y-2">
-                    {links.map((link) => (
-                      <li key={link}>
-                        <a
-                          href="#"
-                          className=" hover:text-gray-600 text-sm transition-colors block"
-                        >
-                          {link}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                  {category === "APPS & DOWNLOADS" && (
-                    <div className="mt-4">
-                      <button
-                        onClick={() => toggleSection('SUBSCRIPTION_SERVICES')}
-                        className="w-full flex items-center justify-between py-2 text-left"
-                      >
-                        <h4 className="font-semibold text-sm uppercase tracking-wide">
-                          SUBSCRIPTION SERVICES
-                        </h4>
-                        <ChevronDown 
-                          className={`h-4 w-4  transition-transform ${
-                            openSections['SUBSCRIPTION_SERVICES'] ? 'rotate-180' : ''
-                          }`}
-                        />
-                      </button>
-                      {openSections['SUBSCRIPTION_SERVICES'] && (
-                        <ul className="space-y-2 mt-2">
-                          {subscriptionServices.map((service) => (
-                            <li key={service}>
-                              <a
-                                href="#"
-                                className=" hover:text-gray-600 text-sm transition-colors block"
-                              >
-                                {service}
-                              </a>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
 
-        {/* Social Media Icons */}
-        <div className="flex items-center gap-4 mb-8">
-          <a
-            href="#"
-            className="w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors"
-          >
-            <Facebook className="h-4 w-4 text-white" />
-          </a>
-          <a
-            href="#"
-            className="w-8 h-8 bg-blue-400 rounded-full flex items-center justify-center hover:bg-gray-500 transition-colors"
-          >
-            <Twitter className="h-4 w-4 text-white" />
-          </a>
-        </div>
-
+      
+       
         {/* Copyright and Legal */}
-        <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+        <div className="border-t border-gray-200 dark:border-gray-700 py-6">
           <div className="text-center">
             <p className="text-xs mb-2">
-              © 2024 AccuWeather, Inc. "AccuWeather" and sun design are registered trademarks of AccuWeather, Inc. All Rights Reserved.
+              © 2025 AccuWeather, Inc. All Rights Reserved.
             </p>
             <div className="flex flex-wrap justify-center gap-4 text-xs">
-              <a href="#" className="hover:underline">Terms of Use</a>
+              <Link href="/terms" className="hover:underline text-blue-600 dark:text-blue-400">Terms of Use</Link>
               <span className="">|</span>
-              <a href="#" className="hover:underline">Privacy Policy</a>
+              <Link href="/privacy" className="hover:underline text-blue-600 dark:text-blue-400">Privacy Policy</Link>
               <span className="">|</span>
-              <a href="#" className="hover:underline">Cookie Policy</a>
-              <span className="">|</span>
-              <a href="#" className="hover:underline">Data Sources</a>
+              <Link href="/cookies" className="hover:underline text-blue-600 dark:text-blue-400">Cookie Policy</Link>
+              
             </div>
           </div>
         </div>
