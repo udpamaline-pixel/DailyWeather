@@ -43,19 +43,19 @@
       "static/chunks/868-da6532ab5ed26462.js",
       "static/chunks/app/terms/page-ee17893ea715846a.js"
     ],
-    "/page": [
-      "static/chunks/webpack-bbf38ab73833ad8f.js",
-      "static/chunks/fd9d1056-5f1696e4aaa6d149.js",
-      "static/chunks/23-f810098185891a71.js",
-      "static/chunks/main-app-063989b6c09e8a70.js",
-      "static/chunks/app/page-4a734a35d2fb806e.js"
-    ],
     "/_not-found/page": [
       "static/chunks/webpack-bbf38ab73833ad8f.js",
       "static/chunks/fd9d1056-5f1696e4aaa6d149.js",
       "static/chunks/23-f810098185891a71.js",
       "static/chunks/main-app-063989b6c09e8a70.js",
       "static/chunks/app/_not-found/page-7bab7a1a0d9bff98.js"
+    ],
+    "/page": [
+      "static/chunks/webpack-bbf38ab73833ad8f.js",
+      "static/chunks/fd9d1056-5f1696e4aaa6d149.js",
+      "static/chunks/23-f810098185891a71.js",
+      "static/chunks/main-app-063989b6c09e8a70.js",
+      "static/chunks/app/page-4a734a35d2fb806e.js"
     ],
     "/daily/page": [
       "static/chunks/webpack-bbf38ab73833ad8f.js",
@@ -66,15 +66,6 @@
       "static/chunks/889-1b7e6a290858c639.js",
       "static/chunks/app/daily/page-30595058c5ca4565.js"
     ],
-    "/forecast/page": [
-      "static/chunks/webpack-bbf38ab73833ad8f.js",
-      "static/chunks/fd9d1056-5f1696e4aaa6d149.js",
-      "static/chunks/23-f810098185891a71.js",
-      "static/chunks/main-app-063989b6c09e8a70.js",
-      "static/chunks/868-da6532ab5ed26462.js",
-      "static/chunks/889-1b7e6a290858c639.js",
-      "static/chunks/app/forecast/page-013835fe34ccf67c.js"
-    ],
     "/today/page": [
       "static/chunks/webpack-bbf38ab73833ad8f.js",
       "static/chunks/fd9d1056-5f1696e4aaa6d149.js",
@@ -83,6 +74,15 @@
       "static/chunks/868-da6532ab5ed26462.js",
       "static/chunks/889-1b7e6a290858c639.js",
       "static/chunks/app/today/page-940c5d0291e085d5.js"
+    ],
+    "/forecast/page": [
+      "static/chunks/webpack-bbf38ab73833ad8f.js",
+      "static/chunks/fd9d1056-5f1696e4aaa6d149.js",
+      "static/chunks/23-f810098185891a71.js",
+      "static/chunks/main-app-063989b6c09e8a70.js",
+      "static/chunks/868-da6532ab5ed26462.js",
+      "static/chunks/889-1b7e6a290858c639.js",
+      "static/chunks/app/forecast/page-013835fe34ccf67c.js"
     ]
   }
 }
