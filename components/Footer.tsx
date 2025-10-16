@@ -15,7 +15,7 @@ const Footer = () => {
   const footerLinks = {
     COMPANY: [
       "Private Superior Accuracy™",
-      "About AccuWeather",
+      "About Daily Weather",
       "Digital Advertising",
       "Careers",
       "Press",
@@ -25,8 +25,8 @@ const Footer = () => {
       "For Business",
       "For Partners",
       "For Advertising",
-      "AccuWeather APIs",
-      "AccuWeather Connect",
+      "Daily Weather APIs",
+      "Daily Weather Connect",
       "RealFeel and RealFeel Shade®",
       "Personal Weather Stations"
     ],
@@ -36,7 +36,7 @@ const Footer = () => {
       "See All Apps & Downloads"
     ],
     MORE: [
-      "AccuWeather Ready",
+      "Daily Weather Ready",
       "Business",
       "Health",
       "Hurricane",
@@ -50,8 +50,8 @@ const Footer = () => {
   };
 
   const subscriptionServices = [
-    "AccuWeather Premium",
-    "AccuWeather Professional"
+    "Daily Weather Premium",
+    "Daily Weather Professional"
   ];
 
   const toggleSection = (section: string) => {
@@ -81,14 +81,7 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Weather Text */}
-      <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-        <div className="container mx-auto px-2 sm:px-4 py-2">
-          <p className="text-sm break-words">
-            Weather Text Goes: Driving Segment - UV Robust
-          </p>
-        </div>
-      </div>
+      
 
       {/* Main Footer Content */}
       <div className="container mx-auto px-2 sm:px-4">
@@ -100,7 +93,7 @@ const Footer = () => {
         <div className="border-t border-gray-200 dark:border-gray-700 py-6">
           <div className="text-center">
             <p className="text-xs mb-2">
-              © 2025 AccuWeather, Inc. All Rights Reserved.
+              © 2025 Daily Weather, Inc. All Rights Reserved.
             </p>
             <div className="flex flex-wrap justify-center gap-4 text-xs">
               <Link href="/terms" className="hover:underline text-blue-600 dark:text-blue-400">Terms of Use</Link>

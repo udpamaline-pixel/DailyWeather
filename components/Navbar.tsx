@@ -232,7 +232,7 @@ export default function Navbar() {
           <div className="flex items-center gap-2">
             <img
               src="/logo.png"
-              alt="AccuWeather Logo"
+              alt="Daily Weather Logo"
               className="h-8 w-auto"
             />
             <div className="flex items-center gap-1 text-sm">

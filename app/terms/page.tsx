@@ -21,7 +21,7 @@ export default function TermsPage() {
                   Last Updated: October 16, 2025
                 </p>
                 <p className="text-gray-700 dark:text-gray-300">
-                  Welcome to AccuWeather. By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
+                  Welcome to Daily Weather. By accessing and using this website, you accept and agree to be bound by the terms and provision of this agreement. If you do not agree to abide by the above, please do not use this service.
                 </p>
               </section>
 
@@ -32,7 +32,7 @@ export default function TermsPage() {
                 </h2>
                 <div className="space-y-3 text-gray-700 dark:text-gray-300">
                   <p>
-                    AccuWeather provides weather information and forecasting services. You may use our service for personal, non-commercial purposes only. You agree not to:
+                    Daily Weather provides weather information and forecasting services. You may use our service for personal, non-commercial purposes only. You agree not to:
                   </p>
                   <ul className="list-disc list-inside space-y-2 ml-4">
                     <li>Use the service for any illegal or unauthorized purpose</li>
@@ -69,7 +69,7 @@ export default function TermsPage() {
                   3. Intellectual Property Rights
                 </h2>
                 <p className="text-gray-700 dark:text-gray-300">
-                  The service and its original content, features, and functionality are owned by AccuWeather and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws. All weather data is provided by third-party weather APIs and remains the property of their respective owners.
+                  The service and its original content, features, and functionality are owned by Daily Weather and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws. All weather data is provided by third-party weather APIs and remains the property of their respective owners.
                 </p>
               </section>
 
@@ -89,7 +89,7 @@ export default function TermsPage() {
                   5. Limitation of Liability
                 </h2>
                 <p className="text-gray-700 dark:text-gray-300">
-                  In no event shall AccuWeather, its directors, employees, partners, agents, suppliers, or affiliates be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the service.
+                  In no event shall Daily Weather, its directors, employees, partners, agents, suppliers, or affiliates be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the service.
                 </p>
               </section>
 
@@ -159,8 +159,8 @@ export default function TermsPage() {
                   If you have any questions about these Terms of Use, please contact us at:
                 </p>
                 <div className="mt-3 text-gray-700 dark:text-gray-300">
-                  <p>Email: support@accuweather.com</p>
-                  <p>Website: www.accuweather.com</p>
+                  <p>Email: support@Daily Weather.com</p>
+                  <p>Website: www.Daily Weather.com</p>
                 </div>
               </section>
 
@@ -177,7 +177,7 @@ export default function TermsPage() {
               {/* Acknowledgment */}
               <section className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
                 <p className="text-gray-700 dark:text-gray-300 font-medium">
-                  By using AccuWeather, you acknowledge that you have read, understood, and agree to be bound by these Terms of Use.
+                  By using Daily Weather, you acknowledge that you have read, understood, and agree to be bound by these Terms of Use.
                 </p>
               </section>
             </CardContent>

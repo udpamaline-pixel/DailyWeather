@@ -20,7 +20,7 @@ export default function PrivacyPage() {
                   Last Updated: October 16, 2025
                 </p>
                 <p className="text-gray-700 dark:text-gray-300">
-                  At AccuWeather, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our weather services. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.
+                  At Daily Weather, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website and use our weather services. Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.
                 </p>
               </section>
 
@@ -242,18 +242,14 @@ export default function PrivacyPage() {
                   <p className="mb-3">
                     If you have any questions or concerns about this Privacy Policy or our data practices, please contact us:
                   </p>
-                  <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg space-y-1">
-                    <p><strong>Email:</strong> privacy@accuweather.com</p>
-                    <p><strong>Support:</strong> support@accuweather.com</p>
-                    <p><strong>Website:</strong> www.accuweather.com</p>
-                  </div>
+                
                 </div>
               </section>
 
               {/* Acknowledgment */}
               <section className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
                 <p className="text-gray-700 dark:text-gray-300 font-medium">
-                  By using AccuWeather, you acknowledge that you have read and understood this Privacy Policy and agree to its terms.
+                  By using Daily Weather, you acknowledge that you have read and understood this Privacy Policy and agree to its terms.
                 </p>
               </section>
             </CardContent>

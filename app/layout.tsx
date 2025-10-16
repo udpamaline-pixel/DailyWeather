@@ -10,8 +10,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: {
-    default: 'AccuWeather - Accurate Weather Forecasts & Real-Time Updates',
-    template: '%s | AccuWeather'
+    default: 'Daily Weather - Accurate Weather Forecasts & Real-Time Updates',
+    template: '%s | Daily Weather'
   },
   description: 'Get accurate weather forecasts, hourly updates, and 10-day predictions for any location worldwide. Real-time weather data, severe weather alerts, and detailed meteorological insights.',
   keywords: [
@@ -31,40 +31,39 @@ export const metadata: Metadata = {
     'world weather',
     'meteorology'
   ],
-  authors: [{ name: 'AccuWeather Team' }],
-  creator: 'AccuWeather',
-  publisher: 'AccuWeather',
+  authors: [{ name: 'Daily Weather Team' }],
+  creator: 'Daily Weather',
+  publisher: 'Daily Weather',
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://accuweather.vercel.app'),
+  metadataBase: new URL('https://DailyWeather.vercel.app'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     type: 'website',
     locale: 'en_US',
-    url: 'https://accuweather.vercel.app',
-    title: 'AccuWeather - Accurate Weather Forecasts & Real-Time Updates',
+    title: 'Daily Weather - Accurate Weather Forecasts & Real-Time Updates',
     description: 'Get accurate weather forecasts, hourly updates, and 10-day predictions for any location worldwide. Real-time weather data and severe weather alerts.',
-    siteName: 'AccuWeather',
+    siteName: 'Daily Weather',
     images: [
       {
         url: '/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'AccuWeather - Your Trusted Weather Source',
+        alt: 'Daily Weather - Your Trusted Weather Source',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AccuWeather - Accurate Weather Forecasts',
+    title: 'Daily Weather - Accurate Weather Forecasts',
     description: 'Get accurate weather forecasts, hourly updates, and 10-day predictions for any location worldwide.',
     images: ['/twitter-image.jpg'],
-    creator: '@accuweather',
+    creator: '@Daily Weather',
   },
   robots: {
     index: true,
@@ -93,20 +92,20 @@ export default function RootLayout({
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'Organization',
-    name: 'AccuWeather',
-    url: 'https://accuweather.vercel.app',
-    logo: 'https://accuweather.vercel.app/logo.png',
+    name: 'Daily Weather',
+    url: 'https://DailyWeather.vercel.app',
+    logo: 'https://DailyWeather.vercel.app/logo.png',
     description: 'Leading provider of accurate weather forecasts and real-time weather updates worldwide',
     sameAs: [
-      'https://www.facebook.com/accuweather',
-      'https://twitter.com/accuweather',
-      'https://www.instagram.com/accuweather',
-      'https://www.youtube.com/accuweather',
+      'https://www.facebook.com/Daily Weather',
+      'https://twitter.com/Daily Weather',
+      'https://www.instagram.com/Daily Weather',
+      'https://www.youtube.com/Daily Weather',
     ],
     contactPoint: {
       '@type': 'ContactPoint',
       contactType: 'Customer Service',
-      email: 'support@accuweather.com',
+      email: 'support@Daily Weather.com',
       availableLanguage: ['English'],
     },
   };
@@ -115,14 +114,14 @@ export default function RootLayout({
   const websiteSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
-    name: 'AccuWeather',
-    url: 'https://accuweather.vercel.app',
+    name: 'Daily Weather',
+    url: 'https://DailyWeather.vercel.app',
     description: 'Accurate weather forecasts, real-time updates, and meteorological insights',
     potentialAction: {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate: 'https://accuweather.vercel.app/search?q={search_term_string}',
+        urlTemplate: 'https://DailyWeather.vercel.app/search?q={search_term_string}',
       },
       'query-input': 'required name=search_term_string',
     },
@@ -132,8 +131,8 @@ export default function RootLayout({
   const webApplicationSchema = {
     '@context': 'https://schema.org',
     '@type': 'WebApplication',
-    name: 'AccuWeather',
-    url: 'https://accuweather.vercel.app',
+    name: 'Daily Weather',
+    url: 'https://DailyWeather.vercel.app',
     description: 'Advanced weather forecasting application with hourly, daily, and extended forecasts',
     applicationCategory: 'WeatherApplication',
     operatingSystem: 'Any',

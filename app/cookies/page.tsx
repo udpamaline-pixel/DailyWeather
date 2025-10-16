@@ -22,7 +22,7 @@ export default function CookiesPage() {
                   Last Updated: October 16, 2025
                 </p>
                 <p className="text-gray-700 dark:text-gray-300">
-                  This Cookie Policy explains how AccuWeather ("we", "us", or "our") uses cookies and similar tracking technologies when you visit our website. This policy explains what these technologies are, why we use them, and your rights to control our use of them.
+                  This Cookie Policy explains how Daily Weather ("we", "us", or "our") uses cookies and similar tracking technologies when you visit our website. This policy explains what these technologies are, why we use them, and your rights to control our use of them.
                 </p>
               </section>
 
@@ -36,7 +36,7 @@ export default function CookiesPage() {
                     Cookies are small text files that are placed on your computer or mobile device when you visit a website. They are widely used to make websites work more efficiently and provide information to website owners.
                   </p>
                   <p>
-                    Cookies set by the website owner (in this case, AccuWeather) are called "first-party cookies." Cookies set by parties other than the website owner are called "third-party cookies." Third-party cookies enable third-party features or functionality to be provided on or through the website (e.g., advertising, interactive content, and analytics).
+                    Cookies set by the website owner (in this case, Daily Weather) are called "first-party cookies." Cookies set by parties other than the website owner are called "third-party cookies." Third-party cookies enable third-party features or functionality to be provided on or through the website (e.g., advertising, interactive content, and analytics).
                   </p>
                 </div>
               </section>
@@ -337,9 +337,9 @@ export default function CookiesPage() {
                     If you have any questions about our use of cookies or this Cookie Policy, please contact us:
                   </p>
                   <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg space-y-1">
-                    <p><strong>Email:</strong> privacy@accuweather.com</p>
-                    <p><strong>Support:</strong> support@accuweather.com</p>
-                    <p><strong>Website:</strong> www.accuweather.com</p>
+                    <p><strong>Email:</strong> privacy@Daily Weather.com</p>
+                    <p><strong>Support:</strong> support@Daily Weather.com</p>
+                    <p><strong>Website:</strong> www.Daily Weather.com</p>
                   </div>
                 </div>
               </section>
