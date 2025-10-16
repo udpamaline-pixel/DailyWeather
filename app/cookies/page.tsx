@@ -336,11 +336,7 @@ export default function CookiesPage() {
                   <p className="mb-3">
                     If you have any questions about our use of cookies or this Cookie Policy, please contact us:
                   </p>
-                  <div className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg space-y-1">
-                    <p><strong>Email:</strong> privacy@Daily Weather.com</p>
-                    <p><strong>Support:</strong> support@Daily Weather.com</p>
-                    <p><strong>Website:</strong> www.Daily Weather.com</p>
-                  </div>
+                
                 </div>
               </section>
 

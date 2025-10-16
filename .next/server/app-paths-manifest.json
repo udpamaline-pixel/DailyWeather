@@ -6,6 +6,6 @@
   "/_not-found/page": "app/_not-found/page.js",
   "/page": "app/page.js",
   "/daily/page": "app/daily/page.js",
-  "/today/page": "app/today/page.js",
-  "/forecast/page": "app/forecast/page.js"
+  "/forecast/page": "app/forecast/page.js",
+  "/today/page": "app/today/page.js"
 }
